@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.imagereveal_text,
+.final_text {
+  text-transform: uppercase;
+  font-family: "Barlow Condensed";
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.02rem;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imagereveal_spotlight {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  background-color: #161616;
+  color: #fff;
+  overflow: hidden;
+}
+
+.textreveal_header,
+.finaltext_header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 50%;
+  z-index: 1;
+}
+
+.imagereveal_spotlight {
+  background-color: #101010;
+}
+
+.imagereveal_spotlight-images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 300svh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translate(5%);
+  will-change: transform;
+}
+
+.imagereveal_row {
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+}
+
+.imagereveal_img {
+  flex: 1;
+  aspect-ratio: 5/7;
+  overflow: hidden;
+}
+
+.imagereveal_img .imagereveal_displayimage {
+  opacity: 0.5;
+  filter: saturate(0);
+}
+
+.imagereveal_mask-container {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  mask-image: url("/maskimage.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 0%;
+  -webkit-mask-image: url("/maskimage.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 0%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+
+
+.imagereveal_mask-container .imagereveal_mask-img {
+  width: 100%;
+  height: 100%;
+}
+.textreveal_headline-sequence {
+  position: relative;
+  height: 100px; /* or any desired height */
+}
+
+.headline-sequence h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 4rem;
+  }
+  .header {
+    width: calc(100% - 4rem);
+  }
+  .spotlight-images {
+    width: 200vw;
+    left: -25vw;
+  }
+}

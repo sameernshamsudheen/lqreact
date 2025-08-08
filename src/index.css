@@ -34,7 +34,7 @@ img {
 .textreveal_header,
 .finaltext_header {
   position: absolute;
-  top: 50%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
@@ -87,14 +87,14 @@ img {
 
 .imagereveal_text h1 {
 font-size: 60px;
-color:black;
+color:white;
 
 }
 .imagereveal_text p {
 font-size: 30px;
 margin-top: 15px;
 line-height: 30px;
-color:black;
+color:white;
 
 }
 

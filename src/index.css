@@ -148,13 +148,14 @@ h1 {
   font-size: 6rem;
 }
 
-.header {
-  width: calc(100% - 8rem);
-}
+
 
 .imagereveal_spotlight-images {
-  width: 150vw;
-  left: -20vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Medium screens (e.g. tablets) */
@@ -165,10 +166,13 @@ h1 {
   .header {
     width: calc(100% - 4rem);
   }
-  .imagereveal_spotlight-images {
-    width: 200vw;
-    left: -25vw;
-  }
+ .imagereveal_spotlight-images {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 }
 
 /* Small screens (e.g. large phones) */
@@ -180,9 +184,12 @@ h1 {
     width: calc(100% - 2rem);
   }
   .imagereveal_spotlight-images {
-    width: 250vw;
-    left: -30vw;
-  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 }
 
 /* Extra small (e.g. small phones) */
@@ -191,20 +198,31 @@ h1 {
     font-size: 2.25rem;
     line-height: 1.2;
   }
- 
-  .imagereveal_spotlight-images {
-   
-    width: 100vw;     /* Full screen width */
-    left: 0;           /* No offset */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .imagereveal_text h1{
+
+    font-size:32px;
+
   }
+    .imagereveal_text p{
+
+    font-size:16px;
+    text-align: center;
+
+  }
+ 
+.imagereveal_spotlight-images {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
   .spotlight-images img {
-    width: 100%;       /* Make image responsive */
-    height: auto;
+    width: 100;       /* Make image responsive */
+  
     object-fit: cover; /* Optional: better crop handling */
   }
+  
   }
 

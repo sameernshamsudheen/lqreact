@@ -26,7 +26,7 @@ img {
   position: relative;
   width: 100vw;
   height: 100svh;
-  background-color: #161616;
+  background-color: #00b5a5;
   color: #fff;
   overflow: hidden;
 }
@@ -43,7 +43,7 @@ img {
 }
 
 .imagereveal_spotlight {
-  background-color: rgb(196, 191, 191);
+  background-color: #00b5a5;
 }
 
 .imagereveal_spotlight-images {

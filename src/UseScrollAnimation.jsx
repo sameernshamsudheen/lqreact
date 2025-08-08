@@ -7,12 +7,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 const useScrollAnimation = () => {
   useEffect(() => {
-    const lenisInstance = new Lenis({ smooth: true });
-    lenisInstance.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenisInstance.raf(time * 1000));
+    const lenis = new Lenis({ smooth: true });
+
+    // Sync Lenis with GSAP
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
     gsap.ticker.lagSmoothing(0);
 
-    // Cache DOM elements once
+    // Cache DOM elements
     const spotlightImages = document.querySelector(".imagereveal_spotlight-images");
     const maskContainer = document.querySelector(".imagereveal_mask-container");
     const maskImage = document.querySelector(".imagereveal_mask-img");
@@ -24,7 +28,14 @@ const useScrollAnimation = () => {
     const total = headlineArray.length;
     const segment = 0.5 / total;
 
-    const setOpacity = (el, value) => gsap.set(el, { opacity: value });
+    // Pre-style for better GPU performance
+    gsap.set(headlineArray, {
+      opacity: 0,
+      yPercent: 50,
+      willChange: "transform, opacity",
+      force3D: true,
+      pointerEvents: "none",
+    });
 
     const onLoadHandler = () => {
       ScrollTrigger.create({
@@ -34,31 +45,48 @@ const useScrollAnimation = () => {
         pin: true,
         pinSpacing: true,
         scrub: 1,
-        markers: false, // Disable in production
+        anticipatePin: 1,
+        markers: false, // Turn on only for debugging
 
-        onUpdate: ({ progress }) => {
-          const p = progress;
-
-          // === 1. Spotlight Image Scroll
+        onUpdate: ({ progress: p }) => {
+          // === 1. Vertical Scroll for Spotlight Image
           gsap.set(spotlightImages, {
             y: p < 0.5 ? `${5 + (-105 * p) / 0.5}%` : `-100%`,
+            force3D: true,
           });
 
-          // === 2. Headline Sequence Fade
+          // === 2. Text Slide + Fade Animation
           for (let i = 0; i < total; i++) {
             const start = i * segment;
             const end = start + segment;
 
             if (p >= start && p < end) {
               const local = (p - start) / segment;
-              const opacity = local < 0.3 ? local / 0.3 : local > 0.7 ? (1 - local) / 0.3 : 1;
-              setOpacity(headlineArray[i], opacity);
+              const opacity =
+                local < 0.3
+                  ? local / 0.3
+                  : local > 0.7
+                  ? (1 - local) / 0.3
+                  : 1;
+              const yOffset = (1 - local) * 100 - 50; // Slide in/out vertically
+
+              gsap.set(headlineArray[i], {
+                opacity,
+                yPercent: yOffset,
+                pointerEvents: "auto",
+                force3D: true,
+              });
             } else {
-              setOpacity(headlineArray[i], 0);
+              gsap.set(headlineArray[i], {
+                opacity: 0,
+                yPercent: 50,
+                pointerEvents: "none",
+                force3D: true,
+              });
             }
           }
 
-          // === 3. Mask Animation
+          // === 3. Mask Reveal + Image Scale
           const maskProgress = (p - 0.5) / 0.3;
           const clampedMaskProgress = Math.min(Math.max(maskProgress, 0), 1);
           const maskSize = `${clampedMaskProgress * 450}%`;
@@ -66,9 +94,10 @@ const useScrollAnimation = () => {
 
           maskContainer.style.setProperty("mask-size", maskSize);
           maskContainer.style.setProperty("-webkit-mask-size", maskSize);
-          gsap.set(maskImage, { scale: imageScale });
-
-          // === 4. Final Header Word Animation (commented out unless SplitText is reintroduced)
+          gsap.set(maskImage, {
+            scale: imageScale,
+            force3D: true,
+          });
         },
       });
     };
@@ -79,8 +108,9 @@ const useScrollAnimation = () => {
       window.addEventListener("load", onLoadHandler);
     }
 
+    // Cleanup
     return () => {
-      lenisInstance.destroy();
+      lenis.destroy();
       window.removeEventListener("load", onLoadHandler);
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };

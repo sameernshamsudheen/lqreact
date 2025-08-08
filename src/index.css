@@ -43,7 +43,7 @@ img {
 }
 
 .imagereveal_spotlight {
-  background-color: #101010;
+  background-color: rgb(196, 191, 191);
 }
 
 .imagereveal_spotlight-images {
@@ -75,8 +75,28 @@ img {
 .imagereveal_text {
   opacity: 0;
   pointer-events: none;
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+ 
+  
 }
 
+.imagereveal_text h1 {
+font-size: 60px;
+color:black;
+
+}
+.imagereveal_text p {
+font-size: 30px;
+margin-top: 15px;
+line-height: 30px;
+color:black;
+
+}
 
 .imagereveal_img .imagereveal_displayimage {
   opacity: 0.5;

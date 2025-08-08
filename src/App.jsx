@@ -66,7 +66,7 @@ function App() {
       </div>
       <div className="imagereveal_mask-container">
         <div className="imagereveal_mask-img">
-          <img className="imagereveal_banner" src="/spotlightbanner.jpeg" alt="dr" />
+          <img className="imagereveal_banner" src="/spotlightbanner.jpg" alt="dr" />
         </div>
        <div className="finaltext_header">
           <h1 className="final_text">the last Frame hits hard</h1>

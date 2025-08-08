@@ -72,6 +72,11 @@ img {
   aspect-ratio: 5/7;
   overflow: hidden;
 }
+.imagereveal_text {
+  opacity: 0;
+  pointer-events: none;
+}
+
 
 .imagereveal_img .imagereveal_displayimage {
   opacity: 0.5;

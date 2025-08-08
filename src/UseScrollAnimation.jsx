@@ -12,94 +12,72 @@ const useScrollAnimation = () => {
     gsap.ticker.add((time) => lenisInstance.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
+    // Cache DOM elements once
     const spotlightImages = document.querySelector(".imagereveal_spotlight-images");
     const maskContainer = document.querySelector(".imagereveal_mask-container");
     const maskImage = document.querySelector(".imagereveal_mask-img");
     const headlineEls = document.querySelectorAll(".textreveal_headline-sequence .imagereveal_text");
 
-    if (!spotlightImages || !maskContainer || !maskImage || !headlineEls.length) return;
+    if (!spotlightImages || !maskContainer || !maskImage || headlineEls.length === 0) return;
+
+    const headlineArray = Array.from(headlineEls);
+    const total = headlineArray.length;
+    const segment = 0.5 / total;
+
+    const setOpacity = (el, value) => gsap.set(el, { opacity: value });
 
     const onLoadHandler = () => {
       ScrollTrigger.create({
         trigger: ".imagereveal_spotlight",
         start: "top top",
-        end: `+=${window.innerHeight * 7}px`,
+        end: `+=${window.innerHeight * 7}`,
         pin: true,
         pinSpacing: true,
         scrub: 1,
-        markers: true,
+        markers: false, // Disable in production
 
         onUpdate: ({ progress }) => {
-          // === 1. Spotlight Image Scroll (0.00 to 0.50)
-          if (progress < 0.5) {
-            const y = 5 + (-105) * (progress / 0.5);
-            gsap.set(spotlightImages, { y: `${y}%` });
-          } else {
-            gsap.set(spotlightImages, { y: `-100%` });
-          }
+          const p = progress;
 
-          // === 2. Headline Sequence Fade (0.00 to 0.50)
-          const total = headlineEls.length;
-          const segment = 0.5 / total;
+          // === 1. Spotlight Image Scroll
+          gsap.set(spotlightImages, {
+            y: p < 0.5 ? `${5 + (-105 * p) / 0.5}%` : `-100%`,
+          });
 
-          headlineEls.forEach((el, i) => {
+          // === 2. Headline Sequence Fade
+          for (let i = 0; i < total; i++) {
             const start = i * segment;
             const end = start + segment;
 
-            if (progress >= start && progress < end) {
-              const local = (progress - start) / segment;
-              let opacity = 1;
-
-              if (local < 0.3) opacity = local / 0.3;
-              else if (local > 0.7) opacity = (1 - local) / 0.3;
-
-              gsap.set(el, { opacity });
+            if (p >= start && p < end) {
+              const local = (p - start) / segment;
+              const opacity = local < 0.3 ? local / 0.3 : local > 0.7 ? (1 - local) / 0.3 : 1;
+              setOpacity(headlineArray[i], opacity);
             } else {
-              gsap.set(el, { opacity: 0 });
-            }
-          });
-
-          // === 3. Mask Animation (0.50 to 0.80)
-          if (progress > 0.5 && progress < 0.8) {
-            const maskProgress = (progress - 0.5) / 0.3;
-            const maskSize = `${maskProgress * 450}%`;
-            const imageScale = 1.5 - maskProgress * 0.5;
-
-            maskContainer.style.setProperty("mask-size", maskSize);
-            maskContainer.style.setProperty("-webkit-mask-size", maskSize);
-            gsap.set(maskImage, { scale: imageScale });
-          } else {
-            const maskSize = progress <= 0.5 ? "0%" : "450%";
-            const imageScale = progress <= 0.5 ? 1.5 : 1;
-
-            maskContainer.style.setProperty("mask-size", maskSize);
-            maskContainer.style.setProperty("-webkit-mask-size", maskSize);
-            gsap.set(maskImage, { scale: imageScale });
-          }
-
-          // === 4. Final Header Word Animation (0.80 to 1.00)
-          // Uncomment if you reintroduce SplitText
-          /*
-          if (headerSplit && headerSplit.words.length > 0) {
-            if (progress > 0.8 && progress < 1.0) {
-              const textProgress = (progress - 0.8) / 0.2;
-              headerSplit.words.forEach((word, index) => {
-                const wordReveal = index / headerSplit.words.length;
-                gsap.set(word, {
-                  opacity: textProgress > wordReveal ? 1 : 0,
-                });
-              });
-            } else {
-              const opacity = progress >= 1.0 ? 1 : 0;
-              gsap.set(headerSplit.words, { opacity });
+              setOpacity(headlineArray[i], 0);
             }
           }
-          */
+
+          // === 3. Mask Animation
+          const maskProgress = (p - 0.5) / 0.3;
+          const clampedMaskProgress = Math.min(Math.max(maskProgress, 0), 1);
+          const maskSize = `${clampedMaskProgress * 450}%`;
+          const imageScale = 1.5 - clampedMaskProgress * 0.5;
+
+          maskContainer.style.setProperty("mask-size", maskSize);
+          maskContainer.style.setProperty("-webkit-mask-size", maskSize);
+          gsap.set(maskImage, { scale: imageScale });
+
+          // === 4. Final Header Word Animation (commented out unless SplitText is reintroduced)
         },
       });
     };
 
-    window.addEventListener("load", onLoadHandler);
+    if (document.readyState === "complete") {
+      onLoadHandler();
+    } else {
+      window.addEventListener("load", onLoadHandler);
+    }
 
     return () => {
       lenisInstance.destroy();

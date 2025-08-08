@@ -143,6 +143,21 @@ color:white;
   pointer-events: none;
 }
 
+/* Base (desktop first) */
+h1 {
+  font-size: 6rem;
+}
+
+.header {
+  width: calc(100% - 8rem);
+}
+
+.imagereveal_spotlight-images {
+  width: 150vw;
+  left: -20vw;
+}
+
+/* Medium screens (e.g. tablets) */
 @media (max-width: 1000px) {
   h1 {
     font-size: 4rem;
@@ -150,8 +165,46 @@ color:white;
   .header {
     width: calc(100% - 4rem);
   }
-  .spotlight-images {
+  .imagereveal_spotlight-images {
     width: 200vw;
     left: -25vw;
   }
 }
+
+/* Small screens (e.g. large phones) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+  .header {
+    width: calc(100% - 2rem);
+  }
+  .imagereveal_spotlight-images {
+    width: 250vw;
+    left: -30vw;
+  }
+}
+
+/* Extra small (e.g. small phones) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+ 
+  .imagereveal_spotlight-images {
+   
+    width: 100vw;     /* Full screen width */
+    left: 0;           /* No offset */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .spotlight-images img {
+    width: 100%;       /* Make image responsive */
+    height: auto;
+    object-fit: cover; /* Optional: better crop handling */
+  }
+  }
+

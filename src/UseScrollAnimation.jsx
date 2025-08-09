@@ -1,25 +1,19 @@
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import Lenis from "lenis";
+import ScrollSmoother from "gsap/ScrollSmoother";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const useScrollAnimation = () => {
   useLayoutEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smooth: true,
-      smoothTouch: true,
+    // ✅ Smooth scrolling with GSAP
+    ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.2,
+      effects: true,
     });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
 
     const spotlightImages = document.querySelector(".imagereveal_spotlight-images");
     const maskContainer = document.querySelector(".imagereveal_mask-container");
@@ -49,12 +43,12 @@ const useScrollAnimation = () => {
       ScrollTrigger.create({
         trigger: ".imagereveal_spotlight",
         start: "top top",
-        end: `+=${window.innerHeight * 7}`,
+        end: `+=${window.innerHeight * 7}px`,
         pin: true,
         pinSpacing: true,
         scrub: 0.5,
         anticipatePin: 1,
-        markers: false,
+        markers: true,
 
         onUpdate: ({ progress: p }) => {
           // 1. Spotlight vertical scroll
@@ -63,7 +57,7 @@ const useScrollAnimation = () => {
             force3D: true,
           });
 
-          // 2. Headline text transitions
+          // 2. Headline transitions
           for (let i = 0; i < total; i++) {
             const start = i * segment;
             const end = start + segment;
@@ -94,7 +88,7 @@ const useScrollAnimation = () => {
             }
           }
 
-          // 3. Mask reveal and image scale
+          // 3. Mask reveal & image scale
           const maskProgress = (p - 0.5) / 0.3;
           const clampedMaskProgress = Math.min(Math.max(maskProgress, 0), 1);
           const maskSize = `${clampedMaskProgress * 450}%`;
@@ -118,9 +112,9 @@ const useScrollAnimation = () => {
     }
 
     return () => {
-      lenis.destroy();
-      window.removeEventListener("load", onLoadHandler);
       ScrollTrigger.getAll().forEach((st) => st.kill());
+      ScrollSmoother.get()?.kill();
+      window.removeEventListener("load", onLoadHandler);
     };
   }, []);
 };

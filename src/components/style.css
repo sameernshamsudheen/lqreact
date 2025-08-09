@@ -75,27 +75,23 @@ img {
 .imagereveal_text {
   opacity: 0;
   pointer-events: none;
-   position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   width: 100%;
   transform: translate(-50%, -50%);
   text-align: center;
- 
-  
 }
 
 .imagereveal_text h1 {
-font-size: 60px;
-color:white;
-
+  font-size: 60px;
+  color: white;
 }
 .imagereveal_text p {
-font-size: 30px;
-margin-top: 15px;
-line-height: 30px;
-color:white;
-
+  font-size: 30px;
+  margin-top: 15px;
+  line-height: 30px;
+  color: white;
 }
 
 .imagereveal_img .imagereveal_displayimage {
@@ -104,7 +100,6 @@ color:white;
 }
 
 .imagereveal_mask-container {
-
   position: absolute;
   top: 0;
   left: 0;
@@ -121,8 +116,6 @@ color:white;
   overflow: hidden;
   z-index: 10;
 }
-
-
 
 .imagereveal_mask-container .imagereveal_mask-img {
   width: 100%;
@@ -148,8 +141,6 @@ h1 {
   font-size: 6rem;
 }
 
-
-
 .imagereveal_spotlight-images {
   width: 100%;
   display: flex;
@@ -166,13 +157,13 @@ h1 {
   .header {
     width: calc(100% - 4rem);
   }
- .imagereveal_spotlight-images {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+  .imagereveal_spotlight-images {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* Small screens (e.g. large phones) */
@@ -184,12 +175,12 @@ h1 {
     width: calc(100% - 2rem);
   }
   .imagereveal_spotlight-images {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 /* Extra small (e.g. small phones) */
@@ -198,32 +189,26 @@ h1 {
     font-size: 2.25rem;
     line-height: 1.2;
   }
-  .imagereveal_text h1{
-
-    font-size:32px;
-
+  .imagereveal_text h1 {
+    font-size: 32px;
   }
-    .imagereveal_text p{
-
-    font-size:16px;
+  .imagereveal_text p {
+    font-size: 16px;
     text-align: center;
-
   }
- 
-.imagereveal_spotlight-images {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 3rem;
-}
+
+  .imagereveal_spotlight-images {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+  }
 
   .spotlight-images img {
-    width: 100;       /* Make image responsive */
-  
+    width: 100; /* Make image responsive */
+
     object-fit: cover; /* Optional: better crop handling */
   }
-  
-  }
-
+}
